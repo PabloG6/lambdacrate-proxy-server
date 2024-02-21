@@ -22,16 +22,25 @@ func main() {
 }
 
 func handleConnection(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("hello this is a connection")
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	defer func() {
-		err := conn.Close()
-		if err != nil {
-			fmt.Println("error occurred when attempting to close socket. ")
+	go func() {
+		defer func() {
+			err := conn.Close()
+			log.Println("closing connection")
+			if err != nil {
+				fmt.Println("error occurred when attempting to close socket. ")
+			}
+		}()
+
+		count := 0
+		for {
+			count++
 		}
 	}()
 }
